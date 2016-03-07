@@ -33,6 +33,8 @@ class CoderDojoBot(telepot.Bot):
             for i in range(0,len(self.choosen_word_list)):
                 if (str(msg['text']).lower() == self.choosen_word_list[i]):
                     self.hiddenWord[i] = str(msg['text'])
+            self.removeFromKeyboard(str(msg['text']))
+            self.printKeyboard("Guess biatch")
             self.printMessage()
     ### Game
 
@@ -92,3 +94,9 @@ class CoderDojoBot(telepot.Bot):
         fifth_row =  alphabetList[24:27]
         keyboard = {'keyboard': [first_row,second_row,third_row,fourth_row,fifth_row]}
         return keyboard
+
+    def removeFromKeyboard(self, letter):
+        for i in range(0,len(self.show_keyboard['keyboard'])):
+            for j in range(0, len(self.show_keyboard['keyboard'][i])):
+                if (self.show_keyboard['keyboard'][i][j] == letter):
+                    return self.show_keyboard['keyboard'][i].pop(j)
