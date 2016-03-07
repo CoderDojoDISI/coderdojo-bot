@@ -12,7 +12,6 @@ class CoderDojoBot(telepot.Bot):
         super(CoderDojoBot, self).__init__(self.TOKEN)
         self.show_keyboard = self.setKeyboard()
         self.choosen_word = self.generateWord()
-
     ### Handle
 
     def on_chat_message(self,msg):
