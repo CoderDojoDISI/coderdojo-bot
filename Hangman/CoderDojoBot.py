@@ -14,6 +14,7 @@ class CoderDojoBot(telepot.Bot):
         self.choosen_word = self.generateWord()
     ### Handle
 
+    # Method that will be called when a message is recived by the bot
     def on_chat_message(self,msg):
         message_type, visibility, user_id = telepot.glance(msg)
         self.user_id = user_id
@@ -45,6 +46,7 @@ class CoderDojoBot(telepot.Bot):
         self.sendMessage(self.user_id, message, reply_markup=self.show_keyboard)
 
     # Generate keyboard
+
     def setKeyboard(self):
         alphabetList = list(string.ascii_uppercase)
         first_row = alphabetList[0:6]
