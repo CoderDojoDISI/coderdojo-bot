@@ -34,7 +34,7 @@ class CoderDojoBot(telepot.Bot):
                 if (str(msg['text']).lower() == self.choosen_word_list[i]):
                     self.hiddenWord[i] = str(msg['text'])
             self.removeFromKeyboard(str(msg['text']))
-            self.printKeyboard("Guess biatch")
+            self.printKeyboard(u'\u2764\ufe0f')
             self.printMessage()
     ### Game
 
