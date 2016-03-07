@@ -18,7 +18,7 @@ class CoderDojoBot(telepot.Bot):
     def on_chat_message(self,msg):
         message_type, visibility, user_id = telepot.glance(msg)
         self.user_id = user_id
-        message = 'ciao'
+        message = self.choosen_word
         self.printKeyboard(message)
 
     ### Game
