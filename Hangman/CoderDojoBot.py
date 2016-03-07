@@ -9,11 +9,13 @@ class CoderDojoBot(telepot.Bot):
         self.TOKEN = '187053440:AAF199All4GbW5moBpq8tga_SEvQbFNvG88'
         super(CoderDojoBot, self).__init__(self.TOKEN)
 
+    # Method that will be called when a message is recived by the bot
     def on_chat_message(self,msg):
         message_type, visibility, user_id = telepot.glance(msg)
         show_keyboard = self.setKeyboard()
         self.sendMessage(user_id, 'This is a custom keyboard', reply_markup=show_keyboard)
 
+    # Set hangman's keyboard
     def setKeyboard(self):
         alphabetList = list(string.ascii_uppercase)
         first_row = alphabetList[0:6]
