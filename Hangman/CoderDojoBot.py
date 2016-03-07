@@ -63,7 +63,14 @@ class CoderDojoBot(telepot.Bot):
         print message
         self.sendMessage(self.user_id, message)
 
-
+# Check if hidden_word is complete
+    def completeHiddenWord(self):
+        for i in len(self.hiddenWord):
+            if (self.hiddenWord[i] == '_ '):
+                return False
+            else:
+                return True
+                
     # Print correct/wrong answer
 
     # Choose random word from file
