@@ -11,16 +11,18 @@ class CoderDojoBot(telepot.Bot):
         self.TOKEN = '187053440:AAF199All4GbW5moBpq8tga_SEvQbFNvG88'
         super(CoderDojoBot, self).__init__(self.TOKEN)
         self.show_keyboard = self.setKeyboard()
-        self.choosen_word = self.generateWord()
     ### Handle
 
     # Method that will be called when a message is recived by the bot
     def on_chat_message(self,msg):
         message_type, visibility, user_id = telepot.glance(msg)
         self.user_id = user_id
-        message = self.choosen_word
-        self.printKeyboard(message)
-
+        if (msg['text'] == "/start"):
+            self.sendMessage(self.user_id, "The game will begin now!")
+            self.choosen_word = self.generateWord()
+            self.printKeyboard("Guess biatch")
+        else:
+            pass
     ### Game
 
     # Check if guess belongs to choosen_word
