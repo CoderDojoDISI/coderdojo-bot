@@ -11,6 +11,8 @@ class CoderDojoBot(telepot.Bot):
         self.TOKEN = '187053440:AAF199All4GbW5moBpq8tga_SEvQbFNvG88'
         super(CoderDojoBot, self).__init__(self.TOKEN)
         self.show_keyboard = self.setKeyboard()
+        self.hiddenWord = []
+        self.choosen_word = ""
     ### Handle
 
     # Method that will be called when a message is recived by the bot
@@ -20,12 +22,24 @@ class CoderDojoBot(telepot.Bot):
         if (msg['text'] == "/start"):
             self.sendMessage(self.user_id, "The game will begin now!")
             self.choosen_word = self.generateWord()
+            for i in self.choosen_word:
+                self.hiddenWord.append("_ ")
             self.printKeyboard("Guess biatch")
+            self.printMessage()
         else:
-            pass
+            for i, item in self.choosen_word:
+                if (str(msg['text']).lower() == self.choosen_word[i]):
+                    self.hiddenWord[i] = msg['text'].lowercase()
+            self.printMessage()
     ### Game
 
     # Check if guess belongs to choosen_word
+    def printMessage(self):
+        message = ""
+        for v in self.hiddenWord:
+            message += v
+        self.sendMessage(self.user_id, message)
+
 
     # Print correct/wrong answer
 
@@ -48,7 +62,6 @@ class CoderDojoBot(telepot.Bot):
         self.sendMessage(self.user_id, message, reply_markup=self.show_keyboard)
 
     # Generate keyboard
-
     def setKeyboard(self):
         alphabetList = list(string.ascii_uppercase)
         first_row = alphabetList[0:6]
