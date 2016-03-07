@@ -14,6 +14,7 @@ class CoderDojoBot(telepot.Bot):
         self.hiddenWord = []
         self.choosen_word = ""
         self.choosen_word_list = []
+        self.lives = 7
     ### Handle
 
     # Method that will be called when a message is recived by the bot
@@ -34,6 +35,22 @@ class CoderDojoBot(telepot.Bot):
                     self.hiddenWord[i] = str(msg['text'])
             self.printMessage()
     ### Game
+
+
+    def beginGame(self):
+        pass
+
+
+    # Remove one player life
+    def removeLife(self):
+        self.lives -= 1
+
+    #Check if player can play
+    def isAlive(self):
+        if (self.lives > 0):
+            return True
+        else:
+            return False
 
     # Check if guess belongs to choosen_word
     def printMessage(self):
