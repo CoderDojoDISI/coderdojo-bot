@@ -6,7 +6,8 @@ from random import randint
 class CoderDojoBot(telepot.Bot):
     """Bot class"""
 
-    # Init method. Call init of telepot.Bot
+    # Init method. Call init of telepot.Bot and set up some
+    # useful game variables.
     def __init__(self):
         self.TOKEN = '187053440:AAF199All4GbW5moBpq8tga_SEvQbFNvG88'
         super(CoderDojoBot, self).__init__(self.TOKEN)
@@ -16,8 +17,8 @@ class CoderDojoBot(telepot.Bot):
         self.choosen_word_list = []
         self.lives = 7
         self.heart = u'\u2764\ufe0f'
-    ### Handle
 
+    ### Handle
     # Method that will be called when a message is recived by the bot
     def on_chat_message(self,msg):
         message_type, visibility, user_id = telepot.glance(msg)
@@ -36,9 +37,10 @@ class CoderDojoBot(telepot.Bot):
             else:
                 hide_keyboard = {'hide_keyboard': True}
                 self.sendMessage(self.user_id, "You lost! Bitch!. Write start if you want to play again!", reply_markup=hide_keyboard)
-    ### Game
 
-    # Find guessed letter(s) in hidden_word
+    ### Game
+    # Find guessed letter(s) in hidden_word. It will also remove
+    # the choosen letter from the keyboard.
     def findGuess(self,msg):
         found = False
         for i in range(0,len(self.choosen_word_list)):
@@ -54,11 +56,12 @@ class CoderDojoBot(telepot.Bot):
     def beginGame(self):
         self.regenValues()
         self.sendMessage(self.user_id, "The game will begin now!")
-        self.choosen_word = 'ciao'#self.generateWord()
+        self.choosen_word = self.generateWord()
         self.choosen_word_list = list(self.choosen_word)
         for i in range(0,len(self.choosen_word_list)):
             self.hiddenWord.append("_ ")
 
+    # Regenerate the default game values (for a new game)
     def regenValues(self):
         self.show_keyboard = self.setKeyboard()
         self.hiddenWord = []
@@ -72,7 +75,7 @@ class CoderDojoBot(telepot.Bot):
     def removeLife(self):
         self.lives -= 1
 
-    #Check if player can play
+    #Check if player has enough life to play
     def isAlive(self):
         if (self.lives >= 1):
             return True
@@ -86,7 +89,7 @@ class CoderDojoBot(telepot.Bot):
             message += v
         return message
 
-    # Prinf hearts
+    # Print hearts
     def printHearts(self):
         totalLives = ""
         for i in range(0, self.lives):
@@ -99,8 +102,6 @@ class CoderDojoBot(telepot.Bot):
             if (self.hiddenWord[i] == '_ '):
                 return False
         return True
-
-    # Print correct/wrong answer
 
     # Choose random word from file
     def generateWord(self):
@@ -115,7 +116,6 @@ class CoderDojoBot(telepot.Bot):
                 return L [1 ]
 
     ### Keyboard
-
     # Print keyboard with given "message"
     def printKeyboard(self,message):
         self.sendMessage(self.user_id, message, reply_markup=self.show_keyboard)
@@ -131,6 +131,7 @@ class CoderDojoBot(telepot.Bot):
         keyboard = {'keyboard': [first_row,second_row,third_row,fourth_row,fifth_row]}
         return keyboard
 
+    # Remove a letter from the keyboard
     def removeFromKeyboard(self, letter):
         for i in range(0,len(self.show_keyboard['keyboard'])):
             for j in range(0, len(self.show_keyboard['keyboard'][i])):
