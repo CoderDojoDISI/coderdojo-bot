@@ -13,6 +13,7 @@ class CoderDojoBot(telepot.Bot):
         self.show_keyboard = self.setKeyboard()
         self.hiddenWord = []
         self.choosen_word = ""
+        self.choosen_word_list = []
     ### Handle
 
     # Method that will be called when a message is recived by the bot
@@ -22,14 +23,15 @@ class CoderDojoBot(telepot.Bot):
         if (msg['text'] == "/start"):
             self.sendMessage(self.user_id, "The game will begin now!")
             self.choosen_word = self.generateWord()
-            for i in self.choosen_word:
+            self.choosen_word_list = list(self.choosen_word)
+            for i in range(0,len(self.choosen_word_list)):
                 self.hiddenWord.append("_ ")
             self.printKeyboard("Guess biatch")
             self.printMessage()
         else:
-            for i, item in self.choosen_word:
-                if (str(msg['text']).lower() == self.choosen_word[i]):
-                    self.hiddenWord[i] = msg['text'].lowercase()
+            for i in range(0,len(self.choosen_word_list)):
+                if (str(msg['text']).lower() == self.choosen_word_list[i]):
+                    self.hiddenWord[i] = str(msg['text'])
             self.printMessage()
     ### Game
 
@@ -38,6 +40,8 @@ class CoderDojoBot(telepot.Bot):
         message = ""
         for v in self.hiddenWord:
             message += v
+
+        print message
         self.sendMessage(self.user_id, message)
 
 
