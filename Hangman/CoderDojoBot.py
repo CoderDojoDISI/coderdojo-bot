@@ -24,12 +24,6 @@ class CoderDojoBot(telepot.Bot):
         if (msg['text'] == "/start"):
             self.beginGame()
         else:
-            for i in range(0,len(self.choosen_word_list)):
-                if (str(msg['text']).lower() == self.choosen_word_list[i]):
-                    self.hiddenWord[i] = str(msg['text'])
-            self.removeFromKeyboard(str(msg['text']))
-            self.printKeyboard(u'\u2764\ufe0f')
-            self.printMessage()
             self.findGuess(msg['text'])
     ### Game
 
@@ -40,7 +34,7 @@ class CoderDojoBot(telepot.Bot):
             if (str().lower(msg) == self.choosen_word_list[i]):
                 self.hiddenWord[i] = str(msg)
         self.removeFromKeyboard(str(msg))
-        self.printKeyboard("Guess biatch")
+        self.printKeyboard(u'\u2764\ufe0f')
         self.printMessage()
 
     # Start the game after /start command
