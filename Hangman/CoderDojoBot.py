@@ -24,27 +24,48 @@ class CoderDojoBot(telepot.Bot):
         self.user_id = user_id
         if (msg['text'] == "/start"):
             self.beginGame()
+            self.printKeyboard(self.printMessage()+"\nGuess a letter!\n"+self.printHearts())
         else:
-            self.findGuess(msg['text'])
+            if (self.isAlive()):
+                if (not(self.completeHiddenWord())):
+                    self.findGuess(msg['text'])
+                    self.printKeyboard(self.printMessage()+'\n'+self.printHearts())
+                else:
+                    hide_keyboard = {'hide_keyboard': True}
+                    self.sendMessage(self.user_id, "You win! Bitch!. Write start if you want to play again!", reply_markup=hide_keyboard)
+            else:
+                hide_keyboard = {'hide_keyboard': True}
+                self.sendMessage(self.user_id, "You lost! Bitch!. Write start if you want to play again!", reply_markup=hide_keyboard)
     ### Game
 
     # Find guessed letter(s) in hidden_word
     def findGuess(self,msg):
+        found = False
         for i in range(0,len(self.choosen_word_list)):
             if (str(msg).lower() == self.choosen_word_list[i]):
                 self.hiddenWord[i] = str(msg)
+                found = True
+        if (not found):
+            self.removeLife()
         self.removeFromKeyboard(str(msg))
-        self.printKeyboard(self.printMessage()+'\n'+self.heart)
 
 
     # Start the game after /start command
     def beginGame(self):
+        self.regenValues()
         self.sendMessage(self.user_id, "The game will begin now!")
-        self.choosen_word = self.generateWord()
+        self.choosen_word = 'ciao'#self.generateWord()
         self.choosen_word_list = list(self.choosen_word)
         for i in range(0,len(self.choosen_word_list)):
             self.hiddenWord.append("_ ")
-        self.printKeyboard(self.printMessage()+"\nGuess a letter!")
+
+    def regenValues(self):
+        self.show_keyboard = self.setKeyboard()
+        self.hiddenWord = []
+        self.choosen_word = ""
+        self.choosen_word_list = []
+        self.lives = 7
+        self.heart = u'\u2764\ufe0f'
 
 
     # Remove one player life
@@ -53,7 +74,7 @@ class CoderDojoBot(telepot.Bot):
 
     #Check if player can play
     def isAlive(self):
-        if (self.lives > 0):
+        if (self.lives >= 1):
             return True
         else:
             return False
@@ -65,13 +86,19 @@ class CoderDojoBot(telepot.Bot):
             message += v
         return message
 
+    # Prinf hearts
+    def printHearts(self):
+        totalLives = ""
+        for i in range(0, self.lives):
+            totalLives += self.heart + " "
+        return totalLives
+
     # Check if hidden_word is complete
     def completeHiddenWord(self):
-        for i in len(self.hiddenWord):
+        for i in range(0,len(self.hiddenWord)):
             if (self.hiddenWord[i] == '_ '):
                 return False
-            else:
-                return True
+        return True
 
     # Print correct/wrong answer
 
