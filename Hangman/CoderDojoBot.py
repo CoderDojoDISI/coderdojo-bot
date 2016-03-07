@@ -15,6 +15,7 @@ class CoderDojoBot(telepot.Bot):
         self.choosen_word = ""
         self.choosen_word_list = []
         self.lives = 7
+        self.heart = u'\u2764\ufe0f'
     ### Handle
 
     # Method that will be called when a message is recived by the bot
@@ -29,13 +30,12 @@ class CoderDojoBot(telepot.Bot):
 
     # Find guessed letter(s) in hidden_word
     def findGuess(self,msg):
-
         for i in range(0,len(self.choosen_word_list)):
-            if (str().lower(msg) == self.choosen_word_list[i]):
+            if (str(msg).lower() == self.choosen_word_list[i]):
                 self.hiddenWord[i] = str(msg)
         self.removeFromKeyboard(str(msg))
-        self.printKeyboard(u'\u2764\ufe0f')
-        self.printMessage()
+        self.printKeyboard(self.printMessage()+'\n'+self.heart)
+
 
     # Start the game after /start command
     def beginGame(self):
@@ -44,9 +44,7 @@ class CoderDojoBot(telepot.Bot):
         self.choosen_word_list = list(self.choosen_word)
         for i in range(0,len(self.choosen_word_list)):
             self.hiddenWord.append("_ ")
-        self.printKeyboard("Guess biatch")
-        self.printMessage()
-
+        self.printKeyboard(self.printMessage()+"\nGuess a letter!")
 
 
     # Remove one player life
@@ -65,11 +63,9 @@ class CoderDojoBot(telepot.Bot):
         message = ""
         for v in self.hiddenWord:
             message += v
+        return message
 
-        print message
-        self.sendMessage(self.user_id, message)
-
-# Check if hidden_word is complete
+    # Check if hidden_word is complete
     def completeHiddenWord(self):
         for i in len(self.hiddenWord):
             if (self.hiddenWord[i] == '_ '):
