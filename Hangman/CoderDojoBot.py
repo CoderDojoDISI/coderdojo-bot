@@ -22,13 +22,7 @@ class CoderDojoBot(telepot.Bot):
         message_type, visibility, user_id = telepot.glance(msg)
         self.user_id = user_id
         if (msg['text'] == "/start"):
-            self.sendMessage(self.user_id, "The game will begin now!")
-            self.choosen_word = self.generateWord()
-            self.choosen_word_list = list(self.choosen_word)
-            for i in range(0,len(self.choosen_word_list)):
-                self.hiddenWord.append("_ ")
-            self.printKeyboard("Guess biatch")
-            self.printMessage()
+            self.beginGame()
         else:
             for i in range(0,len(self.choosen_word_list)):
                 if (str(msg['text']).lower() == self.choosen_word_list[i]):
@@ -36,11 +30,29 @@ class CoderDojoBot(telepot.Bot):
             self.removeFromKeyboard(str(msg['text']))
             self.printKeyboard(u'\u2764\ufe0f')
             self.printMessage()
+            self.findGuess(msg['text'])
     ### Game
 
+    # Find guessed letter(s) in hidden_word
+    def findGuess(self,msg):
 
+        for i in range(0,len(self.choosen_word_list)):
+            if (str().lower(msg) == self.choosen_word_list[i]):
+                self.hiddenWord[i] = str(msg)
+        self.removeFromKeyboard(str(msg))
+        self.printKeyboard("Guess biatch")
+        self.printMessage()
+
+    # Start the game after /start command
     def beginGame(self):
-        pass
+        self.sendMessage(self.user_id, "The game will begin now!")
+        self.choosen_word = self.generateWord()
+        self.choosen_word_list = list(self.choosen_word)
+        for i in range(0,len(self.choosen_word_list)):
+            self.hiddenWord.append("_ ")
+        self.printKeyboard("Guess biatch")
+        self.printMessage()
+
 
 
     # Remove one player life
@@ -63,6 +75,13 @@ class CoderDojoBot(telepot.Bot):
         print message
         self.sendMessage(self.user_id, message)
 
+# Check if hidden_word is complete
+    def completeHiddenWord(self):
+        for i in len(self.hiddenWord):
+            if (self.hiddenWord[i] == '_ '):
+                return False
+            else:
+                return True
 
     # Print correct/wrong answer
 
