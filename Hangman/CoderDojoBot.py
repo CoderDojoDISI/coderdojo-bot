@@ -14,7 +14,7 @@ class CoderDojoBot(telepot.Bot):
     # Init method. Call init of telepot.Bot and set up some
     # useful game variables.
     def __init__(self):
-        self.TOKEN = '187053440:AAF199All4GbW5moBpq8tga_SEvQbFNvG88'
+        self.TOKEN = '' # Inser bot token here
         super(CoderDojoBot, self).__init__(self.TOKEN)
         self.keyboard = self.setKeyboard()
         self.hiddenWord = []            # Word print representation
@@ -37,15 +37,15 @@ class CoderDojoBot(telepot.Bot):
                     if (self.completeHiddenWord()):
                         hide_keyboard = {'hide_keyboard': True}
                         self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
-                        self.sendMessage(self.user_id, "You win! Bitch!. Write start if you want to play again!", reply_markup=hide_keyboard)
+                        self.sendMessage(self.user_id, "You win!. Write start if you want to play again!", reply_markup=hide_keyboard)
                     else:
                         self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
                 else:
                     hide_keyboard = {'hide_keyboard': True}
-                    self.sendMessage(self.user_id, "You win! Bitch!. Write start if you want to play again!", reply_markup=hide_keyboard)
+                    self.sendMessage(self.user_id, "You win!. Write start if you want to play again!", reply_markup=hide_keyboard)
             else:
                 hide_keyboard = {'hide_keyboard': True}
-                self.sendMessage(self.user_id, "You lost! Bitch!. Write start if you want to play again!", reply_markup=hide_keyboard)
+                self.sendMessage(self.user_id, "You lost!. Write start if you want to play again!", reply_markup=hide_keyboard)
 
     ### Game
     # Find guessed letter(s) in hidden_word. It will also remove
