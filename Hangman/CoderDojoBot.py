@@ -29,12 +29,12 @@ class CoderDojoBot(telepot.Bot):
         self.user_id = user_id
         if (msg['text'] == "/start"):
             self.beginGame()
-            self.printKeyboard(self.printMessage()+"\nGuess a letter!\n"+self.printHearts())
+            self.printKeyboard(self.printHiddenWord()+"\nGuess a letter!\n"+self.printHearts())
         else:
             if (self.isAlive()):
                 if (not(self.completeHiddenWord())):
                     self.findGuess(msg['text'])
-                    self.printKeyboard(self.printMessage()+'\n'+self.printHearts())
+                    self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
                 else:
                     hide_keyboard = {'hide_keyboard': True}
                     self.sendMessage(self.user_id, "You win! Bitch!. Write start if you want to play again!", reply_markup=hide_keyboard)
@@ -84,7 +84,7 @@ class CoderDojoBot(telepot.Bot):
             return False
 
     # Check if guess belongs to choosen_word
-    def printMessage(self):
+    def printHiddenWord(self):
         return " ".join(self.hiddenWord)
 
     # Print hearts
