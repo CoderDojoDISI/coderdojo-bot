@@ -1,3 +1,8 @@
+# Simple Hangman Bot made for the 11th March CoderDojo Master
+# Author: Giovanni Riva && Giovanni De Toni
+# Mail: giovannimaria.riva at studenti.unitn.it
+#       giovanni.detoni at unitn.it
+
 import sys, time, telepot
 import string
 from os.path import getsize
@@ -11,12 +16,12 @@ class CoderDojoBot(telepot.Bot):
     def __init__(self):
         self.TOKEN = '187053440:AAF199All4GbW5moBpq8tga_SEvQbFNvG88'
         super(CoderDojoBot, self).__init__(self.TOKEN)
-        self.show_keyboard = self.setKeyboard()
-        self.hiddenWord = []
-        self.choosen_word = ""
-        self.choosen_word_list = []
-        self.lives = 7
-        self.heart = u'\u2764\ufe0f'
+        self.keyboard = self.setKeyboard()
+        self.hiddenWord = []            # Word print representation
+        self.choosen_word = ""          # Word that has to be found by the user
+        self.choosen_word_list = []     # Word representation as a list
+        self.lives = 8                  # Total game lives
+        self.heart = u'\u2764\ufe0f'    # Heart emoj unicode
 
     ### Handle
     # Method that will be called when a message is recived by the bot
@@ -63,13 +68,12 @@ class CoderDojoBot(telepot.Bot):
 
     # Regenerate the default game values (for a new game)
     def regenValues(self):
-        self.show_keyboard = self.setKeyboard()
+        self.keyboard = self.setKeyboard()
         self.hiddenWord = []
         self.choosen_word = ""
         self.choosen_word_list = []
         self.lives = 7
         self.heart = u'\u2764\ufe0f'
-
 
     # Remove one player life
     def removeLife(self):
@@ -118,7 +122,7 @@ class CoderDojoBot(telepot.Bot):
     ### Keyboard
     # Print keyboard with given "message"
     def printKeyboard(self,message):
-        self.sendMessage(self.user_id, message, reply_markup=self.show_keyboard)
+        self.sendMessage(self.user_id, message, reply_markup=self.keyboard)
 
     # Generate keyboard
     def setKeyboard(self):
@@ -128,12 +132,11 @@ class CoderDojoBot(telepot.Bot):
         third_row = alphabetList[12:18]
         fourth_row = alphabetList[18:24]
         fifth_row =  alphabetList[24:27]
-        keyboard = {'keyboard': [first_row,second_row,third_row,fourth_row,fifth_row]}
-        return keyboard
+        return {'keyboard': [first_row,second_row,third_row,fourth_row,fifth_row]}
 
     # Remove a letter from the keyboard
     def removeFromKeyboard(self, letter):
-        for i in range(0,len(self.show_keyboard['keyboard'])):
-            for j in range(0, len(self.show_keyboard['keyboard'][i])):
-                if (self.show_keyboard['keyboard'][i][j] == letter):
-                    return self.show_keyboard['keyboard'][i].pop(j)
+        for i in range(0,len(self.keyboard['keyboard'])):
+            for j in range(0, len(self.keyboard['keyboard'][i])):
+                if (self.keyboard['keyboard'][i][j] == letter):
+                    return self.keyboard['keyboard'][i].pop(j)
