@@ -34,7 +34,12 @@ class CoderDojoBot(telepot.Bot):
             if (self.isAlive()):
                 if (not(self.completeHiddenWord())):
                     self.findGuess(msg['text'])
-                    self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
+                    if (self.completeHiddenWord()):
+                        hide_keyboard = {'hide_keyboard': True}
+                        self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
+                        self.sendMessage(self.user_id, "You win! Bitch!. Write start if you want to play again!", reply_markup=hide_keyboard)
+                    else:
+                        self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
                 else:
                     hide_keyboard = {'hide_keyboard': True}
                     self.sendMessage(self.user_id, "You win! Bitch!. Write start if you want to play again!", reply_markup=hide_keyboard)
@@ -60,7 +65,7 @@ class CoderDojoBot(telepot.Bot):
     def beginGame(self):
         self.regenValues()
         self.sendMessage(self.user_id, "The game will begin now!")
-        self.choosen_word = list(self.generateWord())
+        self.choosen_word = "dragon"#list(self.generateWord())
         for i in range(0,len(self.choosen_word)):
             self.hiddenWord.append("_ ")
 
