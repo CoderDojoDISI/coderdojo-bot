@@ -18,8 +18,7 @@ class CoderDojoBot(telepot.Bot):
         super(CoderDojoBot, self).__init__(self.TOKEN)
         self.keyboard = self.setKeyboard()
         self.hiddenWord = []            # Word print representation
-        self.choosen_word = ""          # Word that has to be found by the user
-        self.choosen_word_list = []     # Word representation as a list
+        self.choosen_word = []          # Word that has to be found by the user
         self.lives = 8                  # Total game lives
         self.heart = u'\u2764\ufe0f'    # Heart emoj unicode
 
@@ -48,8 +47,8 @@ class CoderDojoBot(telepot.Bot):
     # the choosen letter from the keyboard.
     def findGuess(self,msg):
         found = False
-        for i in range(0,len(self.choosen_word_list)):
-            if (str(msg).lower() == self.choosen_word_list[i]):
+        for i in range(0,len(self.choosen_word)):
+            if (str(msg).lower() == self.choosen_word[i]):
                 self.hiddenWord[i] = str(msg)
                 found = True
         if (not found):
@@ -61,18 +60,16 @@ class CoderDojoBot(telepot.Bot):
     def beginGame(self):
         self.regenValues()
         self.sendMessage(self.user_id, "The game will begin now!")
-        self.choosen_word = self.generateWord()
-        self.choosen_word_list = list(self.choosen_word)
-        for i in range(0,len(self.choosen_word_list)):
+        self.choosen_word = list(self.generateWord())
+        for i in range(0,len(self.choosen_word)):
             self.hiddenWord.append("_ ")
 
     # Regenerate the default game values (for a new game)
     def regenValues(self):
         self.keyboard = self.setKeyboard()
         self.hiddenWord = []
-        self.choosen_word = ""
-        self.choosen_word_list = []
-        self.lives = 7
+        self.choosen_word = []
+        self.lives = 8
         self.heart = u'\u2764\ufe0f'
 
     # Remove one player life
@@ -88,10 +85,7 @@ class CoderDojoBot(telepot.Bot):
 
     # Check if guess belongs to choosen_word
     def printMessage(self):
-        message = ""
-        for v in self.hiddenWord:
-            message += v
-        return message
+        return " ".join(self.hiddenWord)
 
     # Print hearts
     def printHearts(self):
