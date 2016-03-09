@@ -8,14 +8,14 @@ import string
 from os.path import getsize
 from random import randint
 
-class CoderDojoBot(telepot.Bot):
+class CoderDojoBot(telepot.helper.ChatHandler):
     """Bot class"""
 
     # Init method. Call init of telepot.Bot and set up some
     # useful game variables.
-    def __init__(self):
-        self.TOKEN = '187053440:AAF199All4GbW5moBpq8tga_SEvQbFNvG88'
+    def __init__(self, seed_tuple, timeout):
         super(CoderDojoBot, self).__init__(self.TOKEN)
+        super(MessageCounter, self).__init__(seed_tuple, timeout)
         self.keyboard = self.setKeyboard()
         self.hiddenWord = []            # Word print representation
         self.choosen_word = []          # Word that has to be found by the user

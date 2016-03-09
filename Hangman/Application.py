@@ -4,10 +4,12 @@
 #       giovanni.detoni at unitn.it
 
 import sys, time, telepot
+from telepot.delegate import per_chat_id, create_open
 from CoderDojoBot import CoderDojoBot
 
 # Initialize the bot and start the loop
-bot = CoderDojoBot()
-bot.notifyOnMessage()
-while True:
-    time.sleep(1)
+TOKEN = '187053440:AAF199All4GbW5moBpq8tga_SEvQbFNvG88'
+bot = telepot.DelegatorBot(TOKEN, [
+    (per_chat_id(), create_open(CoderDojoBot, timeout=60)),
+])
+bot.notifyOnMessage(run_forever=True)
