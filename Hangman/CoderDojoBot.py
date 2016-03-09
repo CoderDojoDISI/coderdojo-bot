@@ -23,7 +23,7 @@ class CoderDojoBot(telepot.helper.ChatHandler):
 
     ### Handle
     # Method that will be called when a message is recived by the bot
-    def on_chat_message(self,msg):
+    def on_message(self,msg):
         message_type, visibility, user_id = telepot.glance(msg)
         self.user_id = user_id
         if (msg['text'] == "/start"):
@@ -36,15 +36,15 @@ class CoderDojoBot(telepot.helper.ChatHandler):
                     if (self.completeHiddenWord()):
                         hide_keyboard = {'hide_keyboard': True}
                         self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
-                        self.sendMessage(self.user_id, "You win!. Write start if you want to play again!", reply_markup=hide_keyboard)
+                        self.sender.sendMessage("You win!. Write start if you want to play again!", reply_markup=hide_keyboard)
                     else:
                         self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
                 else:
                     hide_keyboard = {'hide_keyboard': True}
-                    self.sendMessage(self.user_id, "You win!. Write start if you want to play again!", reply_markup=hide_keyboard)
+                    self.sender.sendMessage("You win!. Write start if you want to play again!", reply_markup=hide_keyboard)
             else:
                 hide_keyboard = {'hide_keyboard': True}
-                self.sendMessage(self.user_id, "You lost!. Write start if you want to play again!", reply_markup=hide_keyboard)
+                self.sender.sendMessage("You lost!. Write start if you want to play again!", reply_markup=hide_keyboard)
 
     ### Game
     # Find guessed letter(s) in hidden_word. It will also remove
@@ -63,8 +63,8 @@ class CoderDojoBot(telepot.helper.ChatHandler):
     # Start the game after /start command
     def beginGame(self):
         self.regenValues()
-        self.sendMessage(self.user_id, "The game will begin now!")
-        self.choosen_word = "dragon"#list(self.generateWord())
+        self.sender.sendMessage("The game will begin now!")
+        self.choosen_word = list(self.generateWord())
         for i in range(0,len(self.choosen_word)):
             self.hiddenWord.append("_ ")
 
@@ -120,7 +120,7 @@ class CoderDojoBot(telepot.helper.ChatHandler):
     ### Keyboard
     # Print keyboard with given "message"
     def printKeyboard(self,message):
-        self.sendMessage(self.user_id, message, reply_markup=self.keyboard)
+        self.sender.sendMessage(message, reply_markup=self.keyboard)
 
     # Generate keyboard
     def setKeyboard(self):
