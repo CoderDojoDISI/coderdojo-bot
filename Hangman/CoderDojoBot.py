@@ -24,8 +24,6 @@ class CoderDojoBot(telepot.helper.ChatHandler):
     ### Handle
     # Method that will be called when a message is recived by the bot
     def on_message(self,msg):
-        message_type, visibility, user_id = telepot.glance(msg)
-        self.user_id = user_id
         if (msg['text'] == "/start"):
             self.beginGame()
             self.printKeyboard(self.printHiddenWord()+"\nGuess a letter!\n"+self.printHearts())
