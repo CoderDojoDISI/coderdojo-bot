@@ -8,7 +8,7 @@ from telepot.delegate import per_chat_id, create_open
 from CoderDojoBot import CoderDojoBot
 
 # Initialize the bot and start the loop
-TOKEN = # Insert here your token 
+TOKEN = '187053440:AAEya33XgwHP8zcLXo1Ny5yOpJ2XvkwVRBU'
 bot = telepot.DelegatorBot(TOKEN, [
     (per_chat_id(), create_open(CoderDojoBot, timeout=60)),
 ])

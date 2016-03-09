@@ -20,6 +20,7 @@ class CoderDojoBot(telepot.helper.ChatHandler):
         self.choosen_word = []          # Word that has to be found by the user
         self.lives = 8                  # Total game lives
         self.heart = u'\u2764\ufe0f'    # Heart emoj unicode
+        self.gameOn = False
 
     ### Handle
     # Method that will be called when a message is recived by the bot
@@ -27,22 +28,20 @@ class CoderDojoBot(telepot.helper.ChatHandler):
         if (msg['text'] == "/start"):
             self.beginGame()
             self.printKeyboard(self.printHiddenWord()+"\nGuess a letter!\n"+self.printHearts())
-        else:
-            if (self.isAlive()):
-                if (not(self.completeHiddenWord())):
-                    self.findGuess(msg['text'])
-                    if (self.completeHiddenWord()):
-                        hide_keyboard = {'hide_keyboard': True}
-                        self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
-                        self.sender.sendMessage("You win!. Write start if you want to play again!", reply_markup=hide_keyboard)
-                    else:
-                        self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
+        elif self.gameOn == True:
+            self.findGuess(msg['text'])
+            if (self.completeHiddenWord()):
+                hide_keyboard = {'hide_keyboard': True}
+                self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
+                self.sender.sendMessage("You win!. Write /start if you want to play again!", reply_markup=hide_keyboard)
+                self.gameOn = False
+            else:
+                if (self.isAlive()):
+                    self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
                 else:
                     hide_keyboard = {'hide_keyboard': True}
-                    self.sender.sendMessage("You win!. Write start if you want to play again!", reply_markup=hide_keyboard)
-            else:
-                hide_keyboard = {'hide_keyboard': True}
-                self.sender.sendMessage("You lost!. Write start if you want to play again!", reply_markup=hide_keyboard)
+                    self.sender.sendMessage("You lost!. Write /start if you want to play again!", reply_markup=hide_keyboard)
+                    self.gameOn = False
 
     ### Game
     # Find guessed letter(s) in hidden_word. It will also remove
@@ -50,7 +49,7 @@ class CoderDojoBot(telepot.helper.ChatHandler):
     def findGuess(self,msg):
         found = False
         for i in range(0,len(self.choosen_word)):
-            if (str(msg).lower() == self.choosen_word[i]):
+            if (str(msg).lower() == self.choosen_word[i] and self.hiddenWord[i] == '_'):
                 self.hiddenWord[i] = str(msg)
                 found = True
         if (not found):
@@ -60,11 +59,12 @@ class CoderDojoBot(telepot.helper.ChatHandler):
 
     # Start the game after /start command
     def beginGame(self):
+        self.gameOn = True
         self.regenValues()
         self.sender.sendMessage("The game will begin now!")
-        self.choosen_word = list(self.generateWord())
+        self.choosen_word = 'cazzomene'#list(self.generateWord())
         for i in range(0,len(self.choosen_word)):
-            self.hiddenWord.append("_ ")
+            self.hiddenWord.append("_")
 
     # Regenerate the default game values (for a new game)
     def regenValues(self):
@@ -99,7 +99,7 @@ class CoderDojoBot(telepot.helper.ChatHandler):
     # Check if hidden_word is complete
     def completeHiddenWord(self):
         for i in range(0,len(self.hiddenWord)):
-            if (self.hiddenWord[i] == '_ '):
+            if (self.hiddenWord[i] == '_'):
                 return False
         return True
 
