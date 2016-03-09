@@ -14,8 +14,7 @@ class CoderDojoBot(telepot.helper.ChatHandler):
     # Init method. Call init of telepot.Bot and set up some
     # useful game variables.
     def __init__(self, seed_tuple, timeout):
-        super(CoderDojoBot, self).__init__(self.TOKEN)
-        super(MessageCounter, self).__init__(seed_tuple, timeout)
+        super(CoderDojoBot, self).__init__(seed_tuple, timeout)
         self.keyboard = self.setKeyboard()
         self.hiddenWord = []            # Word print representation
         self.choosen_word = []          # Word that has to be found by the user
@@ -37,15 +36,15 @@ class CoderDojoBot(telepot.helper.ChatHandler):
                     if (self.completeHiddenWord()):
                         hide_keyboard = {'hide_keyboard': True}
                         self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
-                        self.sendMessage(self.user_id, "You win! Bitch!. Write start if you want to play again!", reply_markup=hide_keyboard)
+                        self.sendMessage(self.user_id, "You win!. Write start if you want to play again!", reply_markup=hide_keyboard)
                     else:
                         self.printKeyboard(self.printHiddenWord()+'\n'+self.printHearts())
                 else:
                     hide_keyboard = {'hide_keyboard': True}
-                    self.sendMessage(self.user_id, "You win! Bitch!. Write start if you want to play again!", reply_markup=hide_keyboard)
+                    self.sendMessage(self.user_id, "You win!. Write start if you want to play again!", reply_markup=hide_keyboard)
             else:
                 hide_keyboard = {'hide_keyboard': True}
-                self.sendMessage(self.user_id, "You lost! Bitch!. Write start if you want to play again!", reply_markup=hide_keyboard)
+                self.sendMessage(self.user_id, "You lost!. Write start if you want to play again!", reply_markup=hide_keyboard)
 
     ### Game
     # Find guessed letter(s) in hidden_word. It will also remove
