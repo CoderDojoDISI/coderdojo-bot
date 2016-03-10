@@ -3,8 +3,7 @@
 # Mail: giovannimaria.riva at studenti.unitn.it
 #       giovanni.detoni at studenti.unitn.it
 
-import sys, time, telepot
-import string
+import sys, time, telepot, string
 from os.path import getsize
 from random import randint
 
@@ -14,7 +13,7 @@ class CoderDojoBotClass(telepot.helper.ChatHandler):
     # Init method. Call init of telepot.Bot and set up some
     # useful game variables.
     def __init__(self, seed_tuple, timeout):
-        super(CoderDojoBot, self).__init__(seed_tuple, timeout)
+        super(CoderDojoBotClass, self).__init__(seed_tuple, timeout)
         self.keyboard = self.setKeyboard()
         self.hiddenWord = []            # Word print representation
         self.choosen_word = []          # Word that has to be found by the user
