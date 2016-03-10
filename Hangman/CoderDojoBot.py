@@ -1,7 +1,7 @@
 # Simple Hangman Bot made for the 11th March CoderDojo Master
 # Author: Giovanni Riva && Giovanni De Toni
 # Mail: giovannimaria.riva at studenti.unitn.it
-#       giovanni.detoni at unitn.it
+#       giovanni.detoni at studenti.unitn.it
 
 import sys, time, telepot
 import string
